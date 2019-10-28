@@ -3,13 +3,11 @@
 #include <unistd.h>
 #include "holberton.h"
 
-#include <stdio.h>
-
 /**
  * _printf - function that prints formated text in standard output.
  * @format: text and format to be printed.
  *
- * Return: number of characters printed. -1 on error
+ * Return: number of characters printed. -1 on error.
  */
 
 int _printf(const char *format, ...)
@@ -18,7 +16,7 @@ int _printf(const char *format, ...)
 	int i = 0, j = 0, count_conversion = 0, chars_printed = 0;
 	char buffer[buffer_size];
 
-	if (format == NULL)
+	if (!format || (format[0] == '%' && format[1] == '\0'))
 		return (-1);
 
 	free_temp(buffer);
@@ -30,16 +28,32 @@ int _printf(const char *format, ...)
 		{
 			count_conversion = count_id(format + i);
 			if (count_conversion == 0)
+				continue;
+			switch (*(format + i + 1))
+			{
+			case 'c':
+				concat_c(buffer, va_arg(args, int), &chars_printed);
+				i++;
 				break;
-			/*char *temp = checkformat(format + i, args);*/
-			if (*(format + i + count_conversion) == 'c')
-				concat_c(buffer, args);
-			if (*(format + i + count_conversion) == 's')
-				j += concat(buffer, va_arg(args, char *)) - 1;
-			i += count_conversion;
+			case 's':
+				j += concat(buffer, va_arg(args, char *), &chars_printed) - 1;
+				i++;
+				break;
+			case '%':
+				concat_c(buffer, '%', &chars_printed);
+				i++;
+				break;
+			case 'd':
+			case 'i':
+				j += concat_i(buffer, va_arg(args, int), &chars_printed) - 1;
+				i++;
+				break;
+			default:
+				concat_c(buffer, '%', &chars_printed);
+			}
 		}
 		else
-			*(buffer + j) = *(format + i);/* Adds a char to buffer */
+			concat_c(buffer, *(format + i), &chars_printed);
 	}
 	chars_printed = write(1, buffer, j);
 	va_end(args);
