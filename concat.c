@@ -41,7 +41,7 @@ void free_temp(char *temp_s)
  * @integer: integer to add.
  * @chars_printed: chars printed.
  *
- * Return: void.
+ * Return: number of character added.
  */
 
 int concat_i(char *buffer, int integer, int *chars_printed)
@@ -80,7 +80,7 @@ int concat_i(char *buffer, int integer, int *chars_printed)
  * @character: character to add.
  * @chars_printed: chars printed.
  *
- * Return: String already concatenate
+ * Return: number of character added.
  */
 /*void concat_c(char *buffer, va_list args, int *chars_printed)*/
 int concat_c(char *buffer, int character, int *chars_printed)
@@ -110,7 +110,7 @@ int concat_c(char *buffer, int character, int *chars_printed)
 int concat(char *s1, char *s2, int *chars_printed)
 {
 	int size_of_s1 = 0, size_of_s2 = 0, j = 0;
-	char *n = "(null)";
+	char *n = "(null)", *temp;
 
 	if (s1 == NULL)
 	{
@@ -131,14 +131,18 @@ int concat(char *s1, char *s2, int *chars_printed)
 
 	if (size_of_s1 + size_of_s2 + 1 > buffer_size)
 	{
-		*chars_printed += write(1, s1, size_of_s1);
+		temp = concat_s(s1, s2);
+		*chars_printed += write(1, temp, size_of_s1 + size_of_s2);
+		free(temp);
 		free_temp(s1);
 		size_of_s1 = 0;
 	}
+	else
+	{
+		for (j = 0; j < size_of_s2; j++)
+			s1[size_of_s1 + j] = s2[j];
+		s1[size_of_s1 + size_of_s2 + 1] = '\0';
+	}
 
-	for (j = 0; j < size_of_s2; j++)
-		s1[size_of_s1 + j] = s2[j];
-
-	s1[size_of_s1 + size_of_s2 + 1] = '\0';
 	return (size_of_s2);
 }
