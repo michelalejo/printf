@@ -1,4 +1,4 @@
-.TH man-printf 1 "28 OCT 2019" "Holberton printf proyect" "printf man page"
+.TH man_printf 1 "28 OCT 2019" "Holberton printf proyect" "printf man page"
 .SH NAME
 .B printf - print data in to the standar output.
 .SH SYNOPSIS
@@ -18,7 +18,7 @@ In the case of successful return, the return will be the number of characters th
 
 In the case of error will return a negative value.
 
-.IP "Format of the format string"
+.IP "Format of the format string:"
 .BI "Formar string is a character string, beganning and ending in ti initial shift state, if any. it is composed of zeros or more directives: normal character are copied uncheged to the standar output, and convert specifications, wich results in fetching zeor or more arguments. Ech specification start by the " % " character and with " conversion " specifier and between there may be more flags, an option minimun "field " " width ", optional " precision " and optional " length " " modifier "."
 
 .BI "All the arguments must be properly corrend with the conversion specifier. The arguments are used in the order given where the " '*' " of ech conversion specifier ask the next argument, in case there are not enough arguments an error will be given. it can also be explicitly specify wich argument is required, all of these just writing " "%m$" " insted of just " '%' " and " "*m$" " instead of just " "*" ", in where the decimal integer m indicate the position in the list of arguments wishes to be printed that will start form 1. Where"
@@ -29,14 +29,39 @@ In the case of error will return a negative value.
 
     printf("%2$*1$d", width, num);
 
-.BI "are equivalent. the second one allows to repeated references to the same argument. The c99 standard does not include this stule when using " '$' ", comesfrom the SINGLE UNIX Specification.  "
+.BI "are equivalent. the second one allows to repeated references to the same argument. The c99 standard does not include this stule when using " '$' ", comesfrom the SINGLE UNIX Specification. if this syle is used, all the conversion taking the argument and all width and precision arguments, and can be mixed with " "%%" " formar wich do not consume and argument. "
 
-.SH OPTIONS
-.B holberton
-does not take any options. However, you can supply studentname.
-.SH SEE ALSO
-.I peerlearning(2), projectbased(2), fullstack(2), Betty(1)
+.IP "The conversion specifier"
+A character that specifies the type of conversion that have to ve applied. The conversion specifiers are:
+
+d, i: 
+The int argument is converted  to decimal notation. The precision gives the digits of numbers that appers, if the value requires fewer digits, it is padded on the left with zeros. For default the precision is 1. When 0 is printed the output is empty. 
+
+c: 
+If there is no modifier the int argument is converted to an unsigned char, and the characters ir printed, if a modifier is present the wint_t (ide character) argument is converted to a multibyte sequence.
+
+s: 
+If no modifier is present the const char * argument expet to be a ponter to an array of character. The characters are written until end but not printing the NULL byte. if there is a specified precision  no more that the number spicified are printed.
+
+%: 
+A '%' is written. No argument is converted. in need another % to complete the conversion.
+
+b: 
+The unsigned int argument is converted to binary.
+
+u: 
+The int argument if converted to unsigned base 10 integer.
+
+r: 
+Handle an conversion and prints the revered string.
+
+R: 
+Handle an conversion and prints the rot13'ed string.
+
+S: 
+Prints the ascii hexadecimal code of non-printable characters.
+
 .SH BUGS
 No known bugs.
 .SH AUTHOR
-Julien Barbier, Sylvain Kalache, Sophie Barbier, Guillaume Salva, Kris Bredemeier, Julien Cyr, Alex Gautier and all the Holberton mentors
+Leonardo Calderon, Michel Molina.

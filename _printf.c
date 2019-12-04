@@ -40,8 +40,16 @@ int _printf(const char *format, ...)
 				j += concat(buffer, va_arg(args, char *), &chars_printed) - 1;
 				i++;
 				break;
+			case 'S':
+				j += concat_S(buffer, va_arg(args, char *), &chars_printed) - 1;
+				i++;
+				break;
 			case '%':
 				concat_c(buffer, '%', &chars_printed);
+				i++;
+				break;
+			case 'u':
+				j += concat_u(buffer, va_arg(args, int), &chars_printed) - 1;
 				i++;
 				break;
 			case 'd':
